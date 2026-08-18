@@ -6,18 +6,18 @@
   <title>Helferstunden BRK</title>
   <style>
     :root {
-      --bg: #f6f9fc;
+      --bg: #f7f4f3;
       --card: #ffffff;
-      --primary: #1f4e78;
-      --primary2: #0b5394;
-      --muted: #667085;
+      --primary: #c8102e;
+      --primary2: #96081f;
+      --muted: #6b6462;
       --field: #ffffff;
-      --border: #7f9db9;
-      --ok: #d9ead3;
-      --info: #e8f1fb;
+      --border: #cdb8b8;
+      --ok: #f7dade;
+      --info: #fbe9ea;
       --warn: #fff3cd;
-      --danger: #b42318;
-      --shadow: 0 8px 24px rgba(16,24,40,.08);
+      --danger: #96081f;
+      --shadow: 0 8px 24px rgba(40,16,16,.08);
     }
     * { box-sizing: border-box; }
     body {
@@ -43,7 +43,6 @@
       background: var(--card); border-radius: 16px; box-shadow: var(--shadow); padding: 14px; margin-bottom: 12px;
     }
     .card.info { background: var(--info); }
-    .card.warn { background: var(--warn); }
     .label { font-weight: 700; font-size: .98rem; margin-bottom: 4px; }
     .hint { color: var(--muted); font-size: .78rem; margin-bottom: 8px; }
     input, select, textarea {
@@ -57,21 +56,19 @@
       box-shadow: var(--shadow); margin-bottom: 10px;
     }
     .btn.primary { background: var(--ok); color: var(--primary2); }
-    .btn.secondary { background: #eef4ff; color: var(--primary2); }
+    .btn.secondary { background: #f4e6e7; color: var(--primary2); }
     .btn.dark { background: var(--primary); color: white; }
-    .btn.warn { background: #fee4e2; color: var(--danger); }
     .small { font-size: .8rem; color: var(--muted); }
     .counter { font-size: 1.15rem; font-weight: 800; color: var(--primary); }
     .list { max-height: 240px; overflow: auto; }
     .entry {
-      border: 1px solid #d0d9e5; border-radius: 12px; padding: 10px; margin-bottom: 8px; background: #fff;
+      border: 1px solid #e6d7d7; border-radius: 12px; padding: 10px; margin-bottom: 8px; background: #fff;
     }
     .entry-top { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
     .entry-title { font-weight: 700; }
     .entry-meta { color: var(--muted); font-size: .8rem; }
-    .pill { background: #eef4ff; color: var(--primary2); border-radius: 999px; padding: 3px 8px; font-size: .74rem; font-weight: 700; }
+    .pill { background: #f4e6e7; color: var(--primary2); border-radius: 999px; padding: 3px 8px; font-size: .74rem; font-weight: 700; }
     .pill.pending { background: var(--warn); color: #7a5b00; }
-    .pill.ok { background: var(--ok); color: #276221; }
     .danger-link { color: var(--danger); cursor: pointer; font-size: .82rem; }
     .footer { font-size: .75rem; color: var(--muted); text-align: center; margin: 10px 0 34px; }
     .statusbox { margin-top: 8px; font-size: .82rem; color: var(--muted); }
@@ -79,12 +76,12 @@
     .settings-body { margin-top: 10px; display: none; }
     .settings-body.open { display: block; }
     table { width: 100%; border-collapse: collapse; font-size: .88rem; }
-    th, td { text-align: left; padding: 6px 4px; border-bottom: 1px solid #e4e9f0; }
+    th, td { text-align: left; padding: 6px 4px; border-bottom: 1px solid #ece1e1; }
     th { color: var(--muted); font-size: .78rem; text-transform: uppercase; }
     .dot { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:6px; }
     .dot.green { background:#2e9e4a; }
-    .dot.red { background:#b42318; }
-    .dot.gray { background:#9aa4b2; }
+    .dot.red { background:#96081f; }
+    .dot.gray { background:#a89e9c; }
     @media (max-width: 420px) { .row { grid-template-columns: 1fr; } }
   </style>
 </head>
