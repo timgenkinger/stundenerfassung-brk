@@ -1,8 +1,12 @@
-# Helferstunden BRK – Erfassung & Auswertung
+# Helferstunden BRK – Erfassung
 
 Kleine Web-App zur Erfassung von Helferstunden (Helfer, Anlass, Datum, Zeit, Bereich).
 Läuft komplett im Browser, ohne eigenen Server. Einträge werden direkt in dieses
 GitHub-Repo geschrieben (`data/entries.json`) und über GitHub Pages gehostet.
+
+Die App ist bewusst **reines Erfassungsformular** – sie zeigt keine gespeicherten
+Einträge, Summen oder Statistiken an. Die Auswertung findet direkt im GitHub-Repo
+statt (siehe „Auswertung“ unten), nicht in der Anwendung selbst.
 
 ## Wie es funktioniert
 
@@ -11,13 +15,14 @@ GitHub-Repo geschrieben (`data/entries.json`) und über GitHub Pages gehostet.
   geschrieben. Ohne Internet wird er lokal im Browser zwischengespeichert und beim
   nächsten Verbindungsversuch automatisch nachgesendet (alle 30 Sekunden sowie beim
   Wiederherstellen der Verbindung).
-- **Auswertung**: Lädt die aktuelle `data/entries.json` direkt von GitHub (öffentlich
-  lesbar, kein Token nötig) und zeigt Summen pro Helfer, Bereich und Jahr sowie einen
-  CSV-Export für die Übertragung ins DRK-System am Jahresende.
 - **Token**: Zum *Schreiben* (Eintrag speichern) ist ein GitHub-Zugriffstoken nötig,
-  das einmalig pro Gerät/Browser eingetragen wird (Karte „Verbindung einrichten“ im
-  Tab „Erfassen“). Das Token wird nur lokal im Browser gespeichert (localStorage) und
-  ausschließlich an die GitHub-API gesendet.
+  das einmalig pro Gerät/Browser eingetragen wird (Karte „Verbindung einrichten“).
+  Das Token wird nur lokal im Browser gespeichert (localStorage) und ausschließlich
+  an die GitHub-API gesendet. Es wird auch intern für den Speichervorgang benötigt
+  (der aktuelle Stand muss vor dem Schreiben einmal gelesen werden), die App zeigt
+  diese Daten aber an keiner Stelle an.
+- **Auswertung**: findet **nicht in der App** statt, sondern direkt im GitHub-Repo
+  – siehe Abschnitt „Auswertung“ weiter unten.
 
 ## ⚠️ Wichtiger Hinweis zur Sicherheit & Datenschutz
 
@@ -87,12 +92,25 @@ Diesen Link an alle Helfer weitergeben.
 ## Laufender Betrieb
 
 - Neue Helfer bekommen einfach den Link + das gemeinsame Token.
-- Am Jahresende: Tab „Auswertung“ öffnen → „Alle Einträge als CSV exportieren“ →
-  Datei ins DRK-System übertragen.
 - Korrekturen an bestehenden Einträgen (z. B. Tippfehler) können direkt auf GitHub
   in `data/entries.json` vorgenommen werden (Datei im Repo öffnen → Stift-Symbol
   „Edit“ → Wert korrigieren → „Commit changes“).
 - Token jährlich erneuern (Ablaufdatum) und neues Token verteilen.
+
+## Auswertung (durch die Leitung, direkt auf GitHub)
+
+Alle Einträge liegen als JSON-Array in
+[`data/entries.json`](data/entries.json) im Repo. Möglichkeiten zur Auswertung:
+
+- **Direkt auf GitHub ansehen**: Datei im Repo öffnen, GitHub stellt JSON lesbar
+  formatiert dar.
+- **Herunterladen & in Excel/Numbers importieren**: Datei über „Raw“ herunterladen
+  und z. B. mit einer kurzen Formel/einem Skript oder einem Online-JSON-zu-CSV-
+  Konverter in eine Tabelle umwandeln.
+- **Am Jahresende**: Datei herunterladen, auswerten (Summen pro Helfer/Bereich/Jahr)
+  und die Zahlen manuell oder per Skript ins DRK-System übertragen.
+- **Historie/Änderungen nachvollziehen**: Die Commit-Historie der Datei auf GitHub
+  zeigt jeden einzelnen Eintrag mit Zeitstempel.
 
 ## Lokale Vorschau vor dem Hochladen
 
@@ -101,6 +119,6 @@ cd /Users/timgenkinger/Desktop/Stundenerfassung-BRK
 python3 -m http.server 8080
 ```
 
-Dann `http://localhost:8080` im Browser öffnen. Die Karte „Auswertung“ lädt die
-Daten direkt von GitHub (`raw.githubusercontent.com`) – das funktioniert erst,
-nachdem der Code auf GitHub liegt.
+Dann `http://localhost:8080` im Browser öffnen. Das Speichern eines Eintrags
+funktioniert erst, nachdem der Code auf GitHub liegt und ein gültiges Token
+eingetragen wurde.

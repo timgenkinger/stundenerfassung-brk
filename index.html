@@ -31,14 +31,6 @@
     }
     .header h1 { margin: 0; font-size: 1.35rem; }
     .header p { margin: 6px 0 0; font-size: .9rem; opacity: .95; }
-    .tabs { display: flex; gap: 8px; margin-bottom: 14px; }
-    .tab {
-      flex: 1; text-align: center; padding: 10px; border-radius: 12px; background: var(--card); box-shadow: var(--shadow);
-      font-weight: 700; color: var(--muted); cursor: pointer; font-size: .92rem;
-    }
-    .tab.active { background: var(--primary); color: #fff; }
-    .view { display: none; }
-    .view.active { display: block; }
     .card {
       background: var(--card); border-radius: 16px; box-shadow: var(--shadow); padding: 14px; margin-bottom: 12px;
     }
@@ -59,7 +51,6 @@
     .btn.secondary { background: #f4e6e7; color: var(--primary2); }
     .btn.dark { background: var(--primary); color: white; }
     .small { font-size: .8rem; color: var(--muted); }
-    .counter { font-size: 1.15rem; font-weight: 800; color: var(--primary); }
     .list { max-height: 240px; overflow: auto; }
     .entry {
       border: 1px solid #e6d7d7; border-radius: 12px; padding: 10px; margin-bottom: 8px; background: #fff;
@@ -75,9 +66,6 @@
     .settings-toggle { font-size: .82rem; color: var(--primary2); cursor: pointer; font-weight: 700; }
     .settings-body { margin-top: 10px; display: none; }
     .settings-body.open { display: block; }
-    table { width: 100%; border-collapse: collapse; font-size: .88rem; }
-    th, td { text-align: left; padding: 6px 4px; border-bottom: 1px solid #ece1e1; }
-    th { color: var(--muted); font-size: .78rem; text-transform: uppercase; }
     .dot { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:6px; }
     .dot.green { background:#2e9e4a; }
     .dot.red { background:#96081f; }
@@ -89,16 +77,8 @@
   <div class="app">
     <div class="header">
       <h1>Helferstunden BRK</h1>
-      <p>Erfassung &amp; Auswertung – gemeinsam gespeichert bei GitHub</p>
+      <p>Stunden erfassen – wird direkt bei GitHub gespeichert</p>
     </div>
-
-    <div class="tabs">
-      <div class="tab active" data-view="erfassen">Erfassen</div>
-      <div class="tab" data-view="auswertung">Auswertung</div>
-    </div>
-
-    <!-- ===================== ERFASSEN ===================== -->
-    <div class="view active" id="view-erfassen">
 
       <div class="card info">
         <div class="settings-toggle" id="settingsToggle">⚙️ Verbindung zu GitHub einrichten / prüfen</div>
@@ -167,61 +147,13 @@
       </div>
 
       <div class="card">
-        <div class="label">Ausstehend / zuletzt gesendet</div>
-        <div class="hint">Alle bisherigen Einträge findest du im Tab „Auswertung“</div>
+        <div class="label">Ausstehend</div>
+        <div class="hint">Einträge, die noch nicht an GitHub gesendet werden konnten</div>
         <div id="liste" class="list"></div>
       </div>
 
-    </div>
-
-    <!-- ===================== AUSWERTUNG ===================== -->
-    <div class="view" id="view-auswertung">
-
-      <div class="card">
-        <div class="label">Statistik</div>
-        <div class="hint">Live aus GitHub geladen (öffentliches Repo, kein Token nötig)</div>
-        <button class="btn secondary" id="btnRefresh">Jetzt aktualisieren</button>
-        <div class="small" id="lastUpdated">Noch nicht geladen</div>
-      </div>
-
-      <div class="card info">
-        <div class="row">
-          <div>
-            <div class="small">Einträge gesamt</div>
-            <div class="counter" id="anzahlEintraege">0</div>
-          </div>
-          <div>
-            <div class="small">Stunden gesamt</div>
-            <div class="counter" id="summeStunden">0</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="label">Stunden pro Helfer</div>
-        <div id="tblHelfer"><div class="small">Noch keine Daten.</div></div>
-      </div>
-
-      <div class="card">
-        <div class="label">Stunden pro Bereich</div>
-        <div id="tblBereich"><div class="small">Noch keine Daten.</div></div>
-      </div>
-
-      <div class="card">
-        <div class="label">Stunden pro Jahr</div>
-        <div id="tblJahr"><div class="small">Noch keine Daten.</div></div>
-      </div>
-
-      <div class="card">
-        <div class="label">Export</div>
-        <div class="hint">Für die Übertragung ins DRK-System am Jahresende</div>
-        <button class="btn primary" id="btnCsv">Alle Einträge als CSV exportieren</button>
-      </div>
-
-    </div>
-
     <div class="footer">
-      Daten liegen im öffentlichen GitHub-Repo <span id="repoLabel"></span>. Bitte keine sensiblen Daten (z. B. Adressen, Gesundheitsdaten) im Feld „Anlass“ eintragen.<br><br>
+      Daten liegen im GitHub-Repo <span id="repoLabel"></span> und werden dort von der Leitung ausgewertet – nicht in dieser Anwendung. Bitte keine sensiblen Daten (z. B. Adressen, Gesundheitsdaten) im Feld „Anlass“ eintragen.<br><br>
       Diese App ist eine mit KI gebaute Datei, die Nutzung der App ist freiwillig und kostenfrei. Es gibt keinerlei Funktionsgarantie oder Haftungsansprüche bei Problemen mit ihrem Endgerät.
     </div>
   </div>
@@ -254,17 +186,6 @@
   $('repoLabel').textContent = OWNER + '/' + REPO;
 
   function setStatus(msg){ statusbox.textContent = msg || ''; }
-
-  // ---------- Tabs ----------
-  document.querySelectorAll('.tab').forEach(tabEl => {
-    tabEl.addEventListener('click', () => {
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-      tabEl.classList.add('active');
-      $('view-' + tabEl.getAttribute('data-view')).classList.add('active');
-      if (tabEl.getAttribute('data-view') === 'auswertung') loadAuswertung();
-    });
-  });
 
   settingsToggle.addEventListener('click', () => settingsBody.classList.toggle('open'));
 
@@ -472,78 +393,6 @@
   $('btnHinzufuegen').addEventListener('click', addEntry);
   window.addEventListener('online', syncPending);
   setInterval(syncPending, 30000);
-
-  // ---------- Auswertung ----------
-  let remoteCache = [];
-
-  async function loadAuswertung(){
-    $('lastUpdated').textContent = 'Lade…';
-    try {
-      const url = 'https://raw.githubusercontent.com/' + OWNER + '/' + REPO + '/' + BRANCH + '/' + DATA_PATH + '?t=' + Date.now();
-      const res = await fetch(url, { cache: 'no-store' });
-      if (res.status === 404) { remoteCache = []; }
-      else if (!res.ok) { throw new Error('HTTP ' + res.status); }
-      else { remoteCache = await res.json(); }
-      if (!Array.isArray(remoteCache)) remoteCache = [];
-      renderAuswertung();
-      $('lastUpdated').textContent = 'Aktualisiert: ' + new Date().toLocaleString('de-DE');
-    } catch (e) {
-      $('lastUpdated').textContent = 'Fehler beim Laden (offline?). Letzter Stand wird angezeigt.';
-    }
-  }
-
-  function extractYear(datum){
-    const m = String(datum || '').match(/\d{4}/);
-    return m ? m[0] : 'Unbekannt';
-  }
-
-  function sumBy(entries, keyFn){
-    const map = new Map();
-    entries.forEach(e => {
-      const key = keyFn(e) || '–';
-      const cur = map.get(key) || { stunden: 0, anzahl: 0 };
-      cur.stunden += parseFloat(e.stunden) || 0;
-      cur.anzahl += 1;
-      map.set(key, cur);
-    });
-    return [...map.entries()].sort((a, b) => b[1].stunden - a[1].stunden);
-  }
-
-  function renderTable(targetId, rows, labelHeader){
-    const target = $(targetId);
-    if (!rows.length) { target.innerHTML = '<div class="small">Noch keine Daten.</div>'; return; }
-    target.innerHTML = '<table><thead><tr><th>' + labelHeader + '</th><th>Einträge</th><th>Stunden</th></tr></thead><tbody>' +
-      rows.map(([key, v]) => `<tr><td>${esc(key)}</td><td>${v.anzahl}</td><td>${v.stunden}</td></tr>`).join('') +
-      '</tbody></table>';
-  }
-
-  function renderAuswertung(){
-    $('anzahlEintraege').textContent = String(remoteCache.length);
-    $('summeStunden').textContent = String(remoteCache.reduce((a, e) => a + (parseFloat(e.stunden) || 0), 0));
-    renderTable('tblHelfer', sumBy(remoteCache, e => e.helfer), 'Helfer');
-    renderTable('tblBereich', sumBy(remoteCache, e => e.bereich), 'Bereich');
-    renderTable('tblJahr', sumBy(remoteCache, e => extractYear(e.datum)), 'Jahr');
-  }
-
-  $('btnRefresh').addEventListener('click', loadAuswertung);
-
-  function csvEscape(v){ const s = String(v ?? ''); return '"' + s.replace(/"/g, '""') + '"'; }
-  function buildCsv(entries){
-    const header = ['Helfer', 'Anlass', 'Datum', 'Zeit', 'Stunden', 'Bereich'];
-    const rows = entries.map(e => [e.helfer, e.anlass, e.datum, e.zeit, e.stunden, e.bereich]);
-    return [header, ...rows].map(r => r.map(csvEscape).join(';')).join('\n');
-  }
-
-  $('btnCsv').addEventListener('click', () => {
-    if (!remoteCache.length) { alert('Es sind noch keine Einträge vorhanden.'); return; }
-    const csv = buildCsv(remoteCache);
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const stamp = new Date().toISOString().slice(0, 10);
-    const fileName = 'Helferstunden_' + stamp + '.csv';
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = fileName; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-  });
 
   // ---------- init ----------
   fillDropdowns();
